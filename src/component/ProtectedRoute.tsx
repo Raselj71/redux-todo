@@ -1,5 +1,6 @@
 import { Navigate, Outlet, useLocation } from 'react-router-dom'
-import { useAppSelector } from '../../redux/store'
+import { useAppSelector } from '../redux/store'
+
 
 export default function ProtectedRoute() {
   const { token, expiresAt } = useAppSelector(s => s.auth)

@@ -23,7 +23,8 @@ function loadPersisted(): AuthState | null {
     const raw = localStorage.getItem(STORAGE_KEY)
     if (!raw) return null
     const parsed = JSON.parse(raw) as AuthState
-    // drop expired sessions on boot
+     
+    console.log('token parse data:', raw)
     if (parsed.expiresAt && Date.now() > parsed.expiresAt) {
       localStorage.removeItem(STORAGE_KEY)
       return null
@@ -39,7 +40,7 @@ const initialState: AuthState = loadPersisted() ?? {
 }
 
 
-type Credentials = { token: string; user: User; expiresAt?: number }
+export type Credentials = { token: string; user: User; expiresAt?: number }
 
 const slice = createSlice({
   name: 'auth',
@@ -66,4 +67,4 @@ export default slice.reducer
 
 
 export const isExpired = (s: AuthState) => !s.expiresAt || Date.now() > s.expiresAt
-export const isAuthenticated = (s: AuthState) => !!s.token && !!s.user && !isExpired(s)
+export const isAuthenticated = (s: AuthState) => !!s.token && !isExpired(s)

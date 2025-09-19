@@ -15,7 +15,10 @@ function ThemeController() {
      }
 
   return (
-    <SegmentedControl.Root defaultValue={currentTheme}>
+    <SegmentedControl.Root size={{
+      initial:'2',
+      lg:'3'
+    }} defaultValue={currentTheme}>
       <SegmentedControl.Item onClick={handleChange} value="light">Light</SegmentedControl.Item>
       <SegmentedControl.Item onClick={handleChange} value="dark">Dark</SegmentedControl.Item>
     

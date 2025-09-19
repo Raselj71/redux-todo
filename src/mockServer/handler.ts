@@ -138,7 +138,7 @@ export const handlers = [
       description: body.description,
       status: (body.status as any) || 'todo',
       priority: body.priority,
-      tags: body.tags || [],
+      tags: body.tags || "",
       dueDate: (body as any).dueDate ?? null,
       createdAt: now,
       updatedAt: now

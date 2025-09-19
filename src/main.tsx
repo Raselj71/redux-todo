@@ -6,7 +6,8 @@ import "@radix-ui/themes/styles.css";
 import { Provider } from "react-redux";
 import { store } from "./redux/store.ts";
 import { BrowserRouter } from "react-router-dom";
-import { Theme, ThemePanel } from "@radix-ui/themes";
+import { ToastContainer } from 'react-toastify';
+
 
 async function deferRender() {
   const { worker } = await import("../src/mockServer/browser.ts");
@@ -20,6 +21,7 @@ deferRender().then(() => {
       <Provider store={store}>
         <BrowserRouter>
           <App />
+           <ToastContainer/>
         </BrowserRouter>
      
       </Provider>

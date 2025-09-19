@@ -2,15 +2,18 @@ import { configureStore } from '@reduxjs/toolkit'
 import { useDispatch, useSelector, type TypedUseSelectorHook } from 'react-redux'
 import authSlice from './auth/authSlice'
 import themeSlice from '../redux/theme/themeSlice'
+import { apiSlice } from './apiSlice'
 
 
 export const store = configureStore({
   reducer: {
-    
+
+    [apiSlice.reducerPath]:apiSlice.reducer,
     auth: authSlice,
-    theme:themeSlice
+    theme:themeSlice,
+   
   },
-  middleware: (gDM) => gDM(),
+  middleware: (gDM) => gDM().concat(apiSlice.middleware),
   devTools:true
 })
 

@@ -1,6 +1,6 @@
 import { Box, Card, Flex, Heading, Text } from "@radix-ui/themes";
 import React from "react";
-import LoginForm from "../form/loginForm";
+import LoginForm from "../form/LoginForm";
 import { Link } from "react-router-dom";
 
 function LoginPage() {

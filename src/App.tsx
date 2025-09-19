@@ -1,19 +1,23 @@
 import { Navigate, Route, Routes } from 'react-router-dom'
 import TodosPage from './pages/Home'
-import { Container, Flex, Theme } from '@radix-ui/themes'
+import {  Container, Flex, Theme } from '@radix-ui/themes'
 import LoginPage from './pages/LoginPage'
 import RegisterPage from './pages/RegisterPage'
 import { useThemeSelector } from './redux/theme/themeSelector'
-import ProtectedRoute from './component/ui/ProtectedRoute'
 import ThemeController from './component/ThemeController'
 import Logo from '../public/logo.png'
+import { isAuthenticated } from './redux/auth/authSlice'
+import Logout from './component/Logout'
+import { useAppSelector } from './redux/store'
+import ProtectedRoute from './component/ProtectedRoute'
+import AddTodo from './pages/AddTodo'
 
 export default function App() {
   const theme = useThemeSelector()
 
-
-
-  
+    const auth = useAppSelector((state) => state.auth)
+  const authed = isAuthenticated(auth)
+  console.log(authed)
 
   return (
 
@@ -22,10 +26,15 @@ export default function App() {
 
 
     <Container >
-      <Flex justify={'between'} p={'4'}>
+      <Flex  className='border-b border-gray-500' justify={'between'} p={'4'}>
       <img className='max-w-24' src={ Logo } />
 
-          <ThemeController/>
+          <Flex gap={'4'}>
+               <ThemeController/>
+
+               {authed  && <Logout/>}
+              
+          </Flex>
       </Flex>
       <main className='w-full p-4'>
         <Routes>
@@ -34,12 +43,13 @@ export default function App() {
           <Route path="/register" element={<RegisterPage />} />
           <Route element={<ProtectedRoute />}>
             <Route path="/app/todos" element={<TodosPage />} />
+             <Route path="/app/todos/add" element={<AddTodo />} />
             <Route path="/app/todos/:id" element={<TodosPage />} />
           </Route>
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </main>
-      {/* <Toasts /> */}
+    
     </Container>
 
        </Theme>
