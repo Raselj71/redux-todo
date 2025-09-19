@@ -1,20 +1,9 @@
 
 import { http, HttpResponse, delay } from 'msw'
 import * as jose from 'jose'
+import type { Todo, User } from '../types/common'
 
-type User = { id: string; email: string; name: string; password: string }
-type Todo = {
-  id: string
-  userId: string
-  title: string
-  description?: string
-  status: 'todo'|'in_progress'|'done'
-  priority?: number
-  tags?: string[]
-  dueDate?: string | null
-  createdAt: string
-  updatedAt: string
-}
+
 
 const db = {
   users: [] as User[],
@@ -185,4 +174,15 @@ export const handlers = [
     db.todos.splice(idx, 1)
     return HttpResponse.json({ success: true })
   }),
+
+
+  http.get('/api/me', async(request)=>{
+        console.log(request.params)
+       return HttpResponse.json({
+        success:true,
+        payload: {
+          "name":'Rasel'
+        }
+       })
+  })
 ]

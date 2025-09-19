@@ -1,14 +1,17 @@
 import { configureStore } from '@reduxjs/toolkit'
 import { useDispatch, useSelector, type TypedUseSelectorHook } from 'react-redux'
 import authSlice from './auth/authSlice'
+import themeSlice from '../redux/theme/themeSlice'
 
 
 export const store = configureStore({
   reducer: {
     
     auth: authSlice,
+    theme:themeSlice
   },
-  middleware: (gDM) => gDM()
+  middleware: (gDM) => gDM(),
+  devTools:true
 })
 
 export type RootState = ReturnType<typeof store.getState>
