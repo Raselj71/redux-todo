@@ -1,11 +1,12 @@
 import { Navigate, Route, Routes } from 'react-router-dom'
 import TodosPage from './pages/Home'
-import { Container, Flex, Heading, Theme } from '@radix-ui/themes'
+import { Container, Flex, Theme } from '@radix-ui/themes'
 import LoginPage from './pages/LoginPage'
 import RegisterPage from './pages/RegisterPage'
 import { useThemeSelector } from './redux/theme/themeSelector'
 import ProtectedRoute from './component/ui/ProtectedRoute'
 import ThemeController from './component/ThemeController'
+import Logo from '../public/logo.png'
 
 export default function App() {
   const theme = useThemeSelector()
@@ -22,10 +23,11 @@ export default function App() {
 
     <Container >
       <Flex justify={'between'} p={'4'}>
-        <Heading>Todo</Heading>
+      <img className='max-w-24' src={ Logo } />
+
           <ThemeController/>
       </Flex>
-      <main className="p-4 max-w-5xl mx-auto">
+      <main className='w-full p-4'>
         <Routes>
           <Route path="/"  element={<Navigate to="/app/todos" replace />} />
           <Route path="/login" element={<LoginPage />} />

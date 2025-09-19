@@ -1,9 +1,11 @@
 import { z } from 'zod'
 
 export const loginSchema = z.object({
-  email: z.string().email(),
+   email: z.string().email("Please enter a valid email"),
   password: z.string().min(6)
 })
+
+export type TTloginSchema = z.infer<typeof loginSchema>;
 
 export const registerSchema = z.object({
   name: z.string().min(2),
@@ -18,6 +20,10 @@ export const registerSchema = z.object({
     )
 })
 
+export type TTregisterSchema = z.infer<typeof registerSchema>;
+
+
+
 export const todoSchema = z.object({
   title: z.string().min(1),
   description: z.string().optional(),
@@ -26,3 +32,6 @@ export const todoSchema = z.object({
   tags: z.array(z.string()).optional(),
   dueDate: z.string().nullable().optional()
 })
+
+
+export type TTtodoSchema = z.infer<typeof todoSchema>;
