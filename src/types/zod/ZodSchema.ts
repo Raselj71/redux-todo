@@ -25,8 +25,9 @@ export type TTregisterSchema = z.infer<typeof registerSchema>;
 export const todoSchema = z.object({
   title: z.string().min(1),
   description: z.string().optional(),
-  status: z.enum(["todo", "in_progress", "done"]).default("todo"),
-  priority: z.coerce.number().int().min(1).max(5).optional(),
+  status: z.enum(["todo", "in_progress", "done"]),
+  priority: z.string(),
+
   tags: z.string().nullable().optional(),
   dueDate: z.string().nullable().optional(),
 });

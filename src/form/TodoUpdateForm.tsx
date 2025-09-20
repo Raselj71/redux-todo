@@ -154,7 +154,7 @@ function TodoUpdateForm({todo}:{todo:todoResponse}) {
           size={"3"}
           className="w-full!"
         >
-           Create Todo
+           Update Todo
         </Button>
       </Flex>
     </form>

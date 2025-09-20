@@ -1,19 +1,13 @@
-
 import { http, HttpResponse, delay } from 'msw'
 import * as jose from 'jose'
 import type { Todo, User } from '../types/common'
 
-
-
 const db = {
   users: [] as User[],
   todos: [] as Todo[],
-  
 }
 
-
 db.users.push({ id: 'u_demo', email: 'demo@todo.pro', name: 'Demo User', password: 'password' })
-
 
 const JWT_SECRET = new TextEncoder().encode('dev-only-super-secret')
 
@@ -41,16 +35,9 @@ async function getAuth(req: Request) {
   }
 }
 
-
-function randomFail() {
-  return Math.random() < 0.1
-}
-
-
 export const handlers = [
   http.post('/auth/register', async ({ request }) => {
     await delay(400)
-    if (randomFail()) return HttpResponse.json({ message: 'Random failure' }, { status: 500 })
 
     const payload = await request.json() as { name: string, email: string, password: string }
     if (db.users.some(u => u.email === payload.email)) {
@@ -75,7 +62,6 @@ export const handlers = [
 
   http.post('/auth/login', async ({ request }) => {
     await delay(400)
-    if (randomFail()) return HttpResponse.json({ message: 'Random failure' }, { status: 500 })
 
     const payload = await request.json() as { email: string, password: string }
     const user = db.users.find(u => u.email === payload.email && u.password === payload.password)
@@ -123,24 +109,23 @@ export const handlers = [
   }),
 
   http.get('/todos/:id', async ({ params, request }) => {
-  await delay(300)
+    await delay(300)
 
-  const auth = await getAuth(request as any)
-  if (!auth) return HttpResponse.json({ message: 'Unauthorized' }, { status: 401 })
+    const auth = await getAuth(request as any)
+    if (!auth) return HttpResponse.json({ message: 'Unauthorized' }, { status: 401 })
 
-  const id = params.id as string
-  const todo = db.todos.find(t => t.id === id && t.userId === auth.userId)
+    const id = params.id as string
+    const todo = db.todos.find(t => t.id === id && t.userId === auth.userId)
 
-  if (!todo) {
-    return HttpResponse.json({ message: 'Not found' }, { status: 404 })
-  }
+    if (!todo) {
+      return HttpResponse.json({ message: 'Not found' }, { status: 404 })
+    }
 
-  return HttpResponse.json(todo)
-}),
+    return HttpResponse.json(todo)
+  }),
 
   http.post('/todos', async ({ request }) => {
     await delay(300)
-    if (randomFail()) return HttpResponse.json({ message: 'Random failure' }, { status: 500 })
 
     const auth = await getAuth(request as any)
     if (!auth) return HttpResponse.json({ message: 'Unauthorized' }, { status: 401 })
@@ -153,7 +138,7 @@ export const handlers = [
       title: body.title || 'Untitled',
       description: body.description,
       status: (body.status as any) || 'todo',
-      priority: body.priority,
+      priority: body.priority!,
       tags: body.tags || "",
       dueDate: (body as any).dueDate ?? null,
       createdAt: now,
@@ -191,14 +176,13 @@ export const handlers = [
     return HttpResponse.json({ success: true })
   }),
 
-
   http.get('/api/me', async(request)=>{
-        console.log(request.params)
-       return HttpResponse.json({
-        success:true,
-        payload: {
-          "name":'Rasel'
-        }
-       })
+    console.log(request.params)
+    return HttpResponse.json({
+      success:true,
+      payload: {
+        "name":'Rasel'
+      }
+    })
   })
 ]

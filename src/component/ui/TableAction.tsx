@@ -2,7 +2,6 @@ import { Flex, IconButton, Text } from "@radix-ui/themes";
 
 import type { FC } from "react";
 import {
-  PiEyeDuotone,
   PiGearDuotone,
   PiNotePencilDuotone,
   PiTrashDuotone,
@@ -21,7 +20,7 @@ type TableActionProps = {
 
 const TableActions: FC<TableActionProps> = ({
   id,
-  preview = true,
+
   showEdit = true,
   showDelete = true,
   showConfig = false,
@@ -38,7 +37,7 @@ const TableActions: FC<TableActionProps> = ({
         console.log(response);
         if (response.data) {
           return {
-            success: false,
+            success: true,
             message: "Delete successfully",
           };
         } else {
@@ -79,15 +78,7 @@ const TableActions: FC<TableActionProps> = ({
           <Text>Config</Text>
         </Link>
       )}
-      {preview && (
-        <Link
-          to={`${location}/preview/${id}`}
-          className="flex gap-1 text-iris-10"
-        >
-          <PiEyeDuotone className="size-5" />
-          <Text>Details</Text>
-        </Link>
-      )}
+
       {showEdit && (
         <Link
           to={`${location.pathname}/${id}`}

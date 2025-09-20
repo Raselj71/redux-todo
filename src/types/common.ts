@@ -18,7 +18,7 @@ export type todoResponse={
       title:string
       description:string
       status: 'todo'| 'in_progress' | 'done',
-      priority:number
+      priority:string
       tags:  string
       dueDate: string
       createdAt: string,
@@ -32,7 +32,7 @@ export type Todo = {
   title: string
   description?: string
   status: 'todo'|'in_progress'|'done'
-  priority?: number
+  priority: string
   tags?: string
   dueDate?: string | null
   createdAt: string

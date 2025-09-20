@@ -20,7 +20,10 @@ function TodoForm() {
     formState: { isSubmitting, errors },
   } = useForm<TTtodoSchema>({
     mode: "onChange",
-    defaultValues: {},
+    defaultValues: {
+      status:'todo',
+     
+    },
     resolver: zodResolver(todoSchema),
   });
 
@@ -94,18 +97,21 @@ function TodoForm() {
             <Select.Item value="done">Done</Select.Item>
           </LabeledSelect>
 
-          <LabeledInput
+          <LabeledSelect
             control={control}
             size="3"
-            required
             error={errors.priority}
+            label="Priority"
             name="priority"
-            type="number"
-            min={1}
-            max={5}
-            placeholder={"1-5"}
-            label="priority"
-          />
+            required
+            placeholder="Choose Priority"
+          >
+            <Select.Item value="1">1</Select.Item>
+            <Select.Item value="2">2</Select.Item>
+            <Select.Item value="3">3</Select.Item>
+             <Select.Item value="4">4</Select.Item>
+              <Select.Item value="5">5</Select.Item>
+          </LabeledSelect>
         </Flex>
 
         <LabeledInput

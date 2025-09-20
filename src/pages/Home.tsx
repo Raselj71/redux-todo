@@ -8,6 +8,8 @@ import {
   Select,
   Table,
   TextField,
+  Skeleton,
+  Callout,
 } from "@radix-ui/themes";
 import { useGetTodosQuery } from "../redux/todo/todoApi";
 import { Link } from "react-router-dom";
@@ -36,7 +38,7 @@ function Home() {
   const auth = useAppSelector((state) => state.auth);
   console.log("auth State", auth);
 
-  const { isLoading, data, isError } = useGetTodosQuery(params);
+  const { isLoading, data, isError, error } = useGetTodosQuery(params);
 
   console.log(data?.data);
 
@@ -49,15 +51,41 @@ function Home() {
     "Action",
   ];
 
+
+  const LoadingSkeleton = () => (
+    <DTable headerCells={tableHeader}>
+      {[...Array(5)].map((_, index) => (
+        <Table.Row key={index} align="center">
+          <Table.Cell>
+            <Skeleton height="20px" />
+          </Table.Cell>
+          <Table.Cell>
+            <Skeleton height="24px" width="80px" />
+          </Table.Cell>
+          <Table.Cell>
+            <Skeleton height="20px" width="60px" />
+          </Table.Cell>
+          <Table.Cell>
+            <Skeleton height="20px" width="100px" />
+          </Table.Cell>
+          <Table.Cell>
+            <Skeleton height="20px" width="120px" />
+          </Table.Cell>
+          <Table.Cell>
+            <div className="flex gap-2">
+              <Skeleton height="32px" width="32px" />
+              <Skeleton height="32px" width="32px" />
+            </div>
+          </Table.Cell>
+        </Table.Row>
+      ))}
+    </DTable>
+  );
+
   return (
     <Box>
       <Heading>All Todo List</Heading>
 
-      
-      
-      
-
- 
       <div className="grid md:grid-cols-5 gap-3 my-4">
         <TextField.Root
           size={{
@@ -70,6 +98,7 @@ function Home() {
             setParams((prev) => ({ ...prev, search: e.target.value, page: 1 }))
           }
           placeholder="Search..."
+          disabled={isLoading}
         />
 
         <Select.Root
@@ -81,35 +110,30 @@ function Home() {
           onValueChange={(e) =>
             setParams((prev) => ({ ...prev, status: e, page: 1 }))
           }
+          disabled={isLoading}
         >
-          <Select.Trigger 
-            placeholder="Choose Status"
-           />
-         	<Select.Content>
-								<Select.Group>
-              	<Select.Label>Choose Status</Select.Label>
-            <Select.Item value="todo">Todo</Select.Item>
-            <Select.Item value="in_progress">In Progress</Select.Item>
-            <Select.Item value="done">Done</Select.Item>
-               </Select.Group>
+          <Select.Trigger placeholder="Choose Status" />
+          <Select.Content>
+            <Select.Group>
+              <Select.Label>Choose Status</Select.Label>
+              <Select.Item value="todo">Todo</Select.Item>
+              <Select.Item value="in_progress">In Progress</Select.Item>
+              <Select.Item value="done">Done</Select.Item>
+            </Select.Group>
           </Select.Content>
-       
         </Select.Root>
 
         <div className="flex gap-2">
           <Select.Root
             value={params.sortBy}
             size={{
-            initial: "2",
-            lg: "3",
-          }}
-            onValueChange={(e) =>
-              setParams((prev) => ({ ...prev, sortBy: e }))
-            }
+              initial: "2",
+              lg: "3",
+            }}
+            onValueChange={(e) => setParams((prev) => ({ ...prev, sortBy: e }))}
+            disabled={isLoading}
           >
-            <Select.Trigger 
-              placeholder="sort By"
-            />
+            <Select.Trigger placeholder="sort By" />
             <Select.Content>
               <Select.Group>
                 <Select.Label>Choose Status</Select.Label>
@@ -123,42 +147,57 @@ function Home() {
           <Select.Root
             value={params.sortOrder}
             size={{
-            initial: "2",
-            lg: "3",
-          }}
+              initial: "2",
+              lg: "3",
+            }}
             onValueChange={(e) =>
               setParams((prev) => ({
                 ...prev,
                 sortOrder: e as "asc" | "desc",
               }))
             }
+            disabled={isLoading}
           >
+            <Select.Trigger placeholder="Sort Order" />
 
-                <Select.Trigger 
-              placeholder="Sort Order"
-            />
-
-             <Select.Content>
+            <Select.Content>
               <Select.Group>
-              <Select.Label>Choose Order</Select.Label>
-            <Select.Item value="desc">Desc</Select.Item>
-            <Select.Item value="asc">Asc</Select.Item>
-
-            </Select.Group>
+                <Select.Label>Choose Order</Select.Label>
+                <Select.Item value="desc">Desc</Select.Item>
+                <Select.Item value="asc">Asc</Select.Item>
+              </Select.Group>
             </Select.Content>
           </Select.Root>
         </div>
 
-           <Button size={{
+        <Button
+          size={{
             initial: "2",
             lg: "3",
-          }} asChild>
+          }}
+          asChild
+          disabled={isLoading}
+        >
           <Link to={"/app/todos/add"}>Add Todo</Link>
         </Button>
       </div>
 
-      {/* Table */}
-      {!isError && (
+ 
+      {isError && (
+        <Callout.Root color="red" mb="4">
+          <Callout.Icon>
+            {/* <ExclamationTriangleIcon /> */}
+          </Callout.Icon>
+          <Callout.Text>
+            Failed to load todos. {error?.data?.message || "Please try again later."}
+          </Callout.Text>
+        </Callout.Root>
+      )}
+
+      {isLoading && <LoadingSkeleton />}
+
+    
+      {!isLoading && !isError && (
         <DTable headerCells={tableHeader}>
           {data?.data && data?.data.length > 0 ? (
             data.data.map((item) => (
@@ -192,6 +231,30 @@ function Home() {
               </Table.Cell>
             </Table.Row>
           )}
+
+          <Table.Row className="bg-surface!" align={"center"}>
+            <Table.Cell colSpan={tableHeader.length}>
+              <div className="flex items-center justify-center gap-4 mt-4">
+                <Button
+                  disabled={params.page <= 1 || isLoading}
+                  onClick={() =>
+                    setParams((prev) => ({ ...prev, page: params.page - 1 }))
+                  }
+                >
+                  Prev
+                </Button>
+                <div>Page {params.page}</div>
+                <Button
+                  disabled={(data?.data.length ?? 0) < 10 || isLoading}
+                  onClick={() =>
+                    setParams((prev) => ({ ...prev, page: params.page + 1 }))
+                  }
+                >
+                  Next
+                </Button>
+              </div>
+            </Table.Cell>
+          </Table.Row>
         </DTable>
       )}
     </Box>
