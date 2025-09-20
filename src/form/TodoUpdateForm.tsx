@@ -6,13 +6,14 @@ import LabeledInput from "../component/ui/Input";
 import { useForm } from "react-hook-form";
 import LabeledSelect from "../component/ui/Select";
 import LabeledTextArea from "../component/ui/TextArea";
-import { useCreateTodoMutation } from "../redux/todo/todoApi";
+import {  useUpdateTodoMutation } from "../redux/todo/todoApi";
 import { toast } from "react-toastify";
+import type { todoResponse } from "../types/common";
 
-function TodoForm() {
+function TodoUpdateForm({todo}:{todo:todoResponse}) {
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const navigate = useNavigate();
-  const [createTodoApi, { isLoading }] = useCreateTodoMutation();
+  const [updateTodoAPI, { isLoading }] = useUpdateTodoMutation();
 
   const {
     control,
@@ -20,15 +21,33 @@ function TodoForm() {
     formState: { isSubmitting, errors },
   } = useForm<TTtodoSchema>({
     mode: "onChange",
-    defaultValues: {},
+    defaultValues: {
+        description:todo.description,
+        dueDate:todo.dueDate,
+        priority:todo.priority,
+        status:todo.status,
+        tags:todo.tags,
+        title:todo.title
+    },
     resolver: zodResolver(todoSchema),
   });
 
   const onsubmit = async (data: TTtodoSchema) => {
     try {
-      const response = await createTodoApi(data);
+      const response = await updateTodoAPI({
+        id:todo.id,
+        patch:{
+            priority:data.priority,
+            description:data.description,
+            dueDate:data.dueDate,
+            title:data.title,
+            tags:data.tags ?? '',
+            status:data.status,
+
+        }
+      });
       if (response.data) {
-        toast("To created Successfully", {
+        toast("Todo updated Successfully", {
             type:'success'
         });
         navigate("/app/todos");
@@ -142,4 +161,4 @@ function TodoForm() {
   );
 }
 
-export default TodoForm;
+export default TodoUpdateForm;

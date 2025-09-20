@@ -6,12 +6,15 @@ import LabeledInput from "../component/ui/Input";
 import { useSignupAPIMutation } from "../redux/auth/authApi";
 import { toast } from "react-toastify";
 import {  useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { PiEyeDuotone, PiEyeSlashDuotone } from "react-icons/pi";
 
 
 
 
 function SignupForm() {
     // eslint-disable-next-line react-hooks/rules-of-hooks
+      const [showPassword, setShowPassword] = useState(false);
     const navigate = useNavigate();
     const [signupApi, {isLoading}]=useSignupAPIMutation()
     const { control, handleSubmit, formState: { isSubmitting,errors } } = useForm<TTregisterSchema>({
@@ -49,12 +52,33 @@ function SignupForm() {
            }
     }
 
+
+     const handlePasswordVisibility = () => {
+    setShowPassword((prev) => !prev);
+  };
+
     return <form onSubmit={handleSubmit(onsubmit)}>
 
         <Flex gap={'4'} direction={'column'}>
             <LabeledInput control={control} error={errors.name} size="3" name="name" required placeholder={"Name"} label="Name" />
               <LabeledInput control={control} error={errors.email} size="3" name="email" required placeholder={"Email"} label="Email" />
-            <LabeledInput control={control} size="3" error={errors.password} name="password" required placeholder={"password"} label="Password" />
+            <LabeledInput control={control}  icon={
+                        showPassword ? (
+                          <PiEyeDuotone
+                            height="16"
+                            width="16"
+                            cursor="pointer"
+                            onClick={handlePasswordVisibility}
+                          />
+                        ) : (
+                          <PiEyeSlashDuotone
+                            height="16"
+                            width="16"
+                            cursor="pointer"
+                            onClick={handlePasswordVisibility}
+                          />
+                        )
+                      } size="3" error={errors.password} name="password"   type={showPassword ? 'text' : 'password'} required placeholder={"password"} label="Password" />
 
             <Button
                 variant='solid'

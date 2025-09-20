@@ -11,7 +11,7 @@ import Logout from './component/Logout'
 import { useAppSelector } from './redux/store'
 import ProtectedRoute from './component/ProtectedRoute'
 import AddTodo from './pages/AddTodo'
-
+import UpdateTodo from './pages/EditTodo'
 export default function App() {
   const theme = useThemeSelector()
 
@@ -44,7 +44,7 @@ export default function App() {
           <Route element={<ProtectedRoute />}>
             <Route path="/app/todos" element={<TodosPage />} />
              <Route path="/app/todos/add" element={<AddTodo />} />
-            <Route path="/app/todos/:id" element={<TodosPage />} />
+            <Route path="/app/todos/:id" element={<UpdateTodo />} />
           </Route>
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>

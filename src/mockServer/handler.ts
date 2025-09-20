@@ -122,6 +122,22 @@ export const handlers = [
     return HttpResponse.json({ data, total, page, limit })
   }),
 
+  http.get('/todos/:id', async ({ params, request }) => {
+  await delay(300)
+
+  const auth = await getAuth(request as any)
+  if (!auth) return HttpResponse.json({ message: 'Unauthorized' }, { status: 401 })
+
+  const id = params.id as string
+  const todo = db.todos.find(t => t.id === id && t.userId === auth.userId)
+
+  if (!todo) {
+    return HttpResponse.json({ message: 'Not found' }, { status: 404 })
+  }
+
+  return HttpResponse.json(todo)
+}),
+
   http.post('/todos', async ({ request }) => {
     await delay(300)
     if (randomFail()) return HttpResponse.json({ message: 'Random failure' }, { status: 500 })

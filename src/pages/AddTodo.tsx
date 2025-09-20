@@ -8,7 +8,7 @@ function AddTodo() {
     <Card className="m-4  mt-20 lg:w-[700px] mx-auto ">
       <Flex justify={"center"}>
         <Heading my={"5"} as="h3">
-          Login
+           Create your todo in here 
         </Heading>
       </Flex>
 
