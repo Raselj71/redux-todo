@@ -83,8 +83,8 @@ A modern, feature-rich Todo application built with React, TypeScript, and Redux 
    - Click "Register" to create your account
 
 3. **Login**
-   - Use the demo account: `demo@todo.pro` / `password`
-   - Or login with your registered account
+   
+   -  login with your registered account
 
 ### Managing Todos
 
@@ -131,11 +131,7 @@ A modern, feature-rich Todo application built with React, TypeScript, and Redux 
 - Your preference is automatically saved
 - Interface adapts with proper contrast and colors
 
-#### Keyboard Shortcuts
-- `Tab` - Navigate through elements
-- `Enter` - Submit forms or activate buttons
-- `Escape` - Close dialogs and dropdowns
-- `Space` - Toggle checkboxes and buttons
+
 
 ## 🛠️ Tech Stack
 
@@ -182,28 +178,9 @@ src/
 └── styles/              # Global styles
 ```
 
-## 🔧 Configuration
 
-### Environment Variables
-The app works out of the box with mock data. For production, you can configure:
 
-```env
-VITE_API_URL=your-api-endpoint
-VITE_JWT_SECRET=your-jwt-secret
-```
 
-### Customization
-- **Colors**: Modify theme colors in `tailwind.config.js`
-- **API**: Update endpoints in `src/redux/todo/todoApi.ts`
-- **Validation**: Adjust schemas in `src/types/zod/ZodSchema.ts`
-
-## 📊 Demo Account
-
-For quick testing, use the built-in demo account:
-- **Email**: `demo@todo.pro`
-- **Password**: `password`
-
-This account comes with sample todos to explore all features.
 
 ## 🔒 Security Features
 
