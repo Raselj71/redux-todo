@@ -1,4 +1,4 @@
-import { Navigate, Route, Routes } from 'react-router-dom'
+import { Link, Navigate, Route, Routes } from 'react-router-dom'
 import TodosPage from './pages/Home'
 import {  Container, Flex, Theme } from '@radix-ui/themes'
 import LoginPage from './pages/LoginPage'
@@ -27,7 +27,7 @@ export default function App() {
 
     <Container >
       <Flex  className='border-b border-gray-500' justify={'between'} p={'4'}>
-      <img className='max-w-24' src={ Logo } />
+        <Link to={'/'}>   <img className='max-w-24' src={ Logo } /></Link>
 
           <Flex gap={'4'}>
                <ThemeController/>

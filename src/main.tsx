@@ -7,6 +7,7 @@ import { Provider } from "react-redux";
 import { store } from "./redux/store.ts";
 import { BrowserRouter } from "react-router-dom";
 import { ToastContainer } from 'react-toastify';
+import { SnackbarProvider } from "notistack";
 
 
 async function deferRender() {
@@ -21,6 +22,7 @@ deferRender().then(() => {
       <Provider store={store}>
         <BrowserRouter>
           <App />
+                <SnackbarProvider />
            <ToastContainer/>
         </BrowserRouter>
      

@@ -20,6 +20,8 @@
     "clsx": "^2.1.1",
     "jose": "^6.1.0",
     "msw": "^2.11.2",
+    "notiflix": "^3.2.8",
+    "notistack": "^3.0.2",
     "radix-themes-tw": "^0.2.3",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",

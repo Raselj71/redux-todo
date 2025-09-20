@@ -30,7 +30,7 @@ export const todosApi = apiSlice.injectEndpoints({
       },
       invalidatesTags: (res, err, arg) => [{ type: 'Todos', id: arg.id }]
     }),
-    deleteTodo: builder.mutation<{ success: boolean }, string>({
+    deleteTodo: builder.mutation<{ success: boolean }, {id:string}>({
       query: (id) => ({ url: `todos/${id}`, method: 'DELETE' }),
       invalidatesTags: [{ type: 'Todos', id: 'LIST' }]
     }),
